@@ -1,0 +1,11 @@
+{
+	"*.{js,ts,tsx,jsx,vue,json}": ["eslint --fix", "prettier --write"],
+	"*.{css,less,scss,sass}": [
+		"stylelint --fix --allow-empty-input",
+		"prettier --write"
+	],
+	"*.{png,jpg,jpeg,webp}": [
+		"tiny-files --key zGtmbd0wsPVNgSRT2XTq0bCvRnrFL7g0"
+	],
+	"*.svg": ["svgo"]
+}

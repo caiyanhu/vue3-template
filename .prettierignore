@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/assets
+**/pkg
+**/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
+**/.*.json
+**/*.md
