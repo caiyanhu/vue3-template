@@ -1,10 +1,13 @@
-import "virtual:uno.css";
+import "./style.css";
 
 import { createApp } from "vue";
 
+import directives from "@/directives";
+import router from "@/router";
+
 import App from "./App.vue";
-import router from "./router";
 
 const app = createApp(App);
 app.use(router);
+app.use(directives);
 app.mount("#app");

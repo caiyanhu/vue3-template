@@ -16,7 +16,6 @@ export default [
       ".git/",
       "**/dist/",
       "**/.DS_Store/",
-      "**/assets",
       "**/pnpm-lock.yaml",
       "**/.*.json",
       "**/*.d.ts",

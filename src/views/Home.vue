@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Recorder } from "@/components";
+import { HomeBottom } from "@/components";
 </script>
 
 <template>
-  <div class="w-screen h-screen bg-white">
-    <Recorder />
+  <div class="w-screen h-screen bg-no-repeat bg-cover bg-home">
+    <HomeBottom />
   </div>
 </template>
