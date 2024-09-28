@@ -4,7 +4,7 @@ import { Recorder, TextArea } from "@/components";
 
 <template>
   <div
-    class="fixed bottom-0 h-[19.594375rem] w-full flex flex-col justify-center items-center">
+    class="w-screen h-screen fixed bottom-0 flex flex-col justify-center items-center bg-homeBottom">
     <TextArea />
     <Recorder />
   </div>

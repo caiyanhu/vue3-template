@@ -3,8 +3,6 @@ import { ref } from "vue";
 
 import { ASR_voice } from "@/apis";
 import RecorderIcon from "@/assets/recorder.svg";
-import VoiceWave from "@/assets/voiceWave.webp";
-import VoiceWaveStart from "@/assets/voiceWaveStart.png";
 import { MessagePopup } from "@/components";
 
 import AudioRecorder from "./recorder.ts";
@@ -39,33 +37,37 @@ const handleEnd = async () => {
   isVoiceAnimationVisible.value = false;
   const audioBlob = await recorder.stopRecording();
 
-  // 将音频文件上传到语音转文字接口中
-  await ASR_voice(audioBlob);
+  if (audioBlob.size > 0) {
+    // 将音频文件上传到语音转文字接口中
+    await ASR_voice(audioBlob);
+  }
 };
 
 /**
  * 提示时间短,动画消失,取消录音
  */
 const handleShortPress = () => {
-  isMessagePopupVisible.value = true;
   isVoiceAnimationVisible.value = false;
+
+  // 当录音器获得授权之后,短按才触发提示"说话时间太短"
+  if (recorder.hasPermission) {
+    isMessagePopupVisible.value = true;
+  }
 
   recorder.cancelRecording();
 };
 </script>
 
 <template>
-  <div class="absolute bottom-0 w-full h-[6.79125rem]">
-    <div class="flex justify-center relative z-10">
+  <div class="absolute bottom-0 w-full h-[6.875rem]">
+    <div
+      :class="`flex justify-center relative bg-top bg-cover ${isVoiceAnimationVisible ? 'bg-voiceWave' : 'bg-voiceWaveInit'}`">
       <RecorderIcon
         v-touch="{
           handleStart,
           handleEnd,
           handleShortPress,
         }" />
-    </div>
-    <div class="absolute bottom-0 z-0">
-      <img :src="isVoiceAnimationVisible ? VoiceWave : VoiceWaveStart" />
     </div>
     <MessagePopup
       @close="isMessagePopupVisible = false"

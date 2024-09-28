@@ -22,6 +22,10 @@ export default defineConfig({
         target: "http://nls-gateway-cn-shanghai.aliyuncs.com",
         changeOrigin: true,
       },
+      "/chat": {
+        target: "http://36.212.55.183:7862",
+        changeOrigin: true,
+      },
     },
   },
 });
