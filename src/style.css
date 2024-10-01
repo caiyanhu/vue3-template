@@ -18,6 +18,9 @@
 
 body {
   margin: 0;
+  /* 禁止用户选择文本,避免长按误选其它元素 */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 #app {

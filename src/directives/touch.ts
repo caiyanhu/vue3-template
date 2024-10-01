@@ -13,8 +13,8 @@ function isTouchDevice() {
 
 const touchDirective: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding<DirectiveBindingValue>) {
-    // 阈值,默认2000s
-    const duration = binding.arg ? parseInt(binding.arg, 10) : 2000;
+    // 阈值,默认1000s
+    const duration = binding.arg ? parseInt(binding.arg, 10) : 1000;
     let pressTimer: NodeJS.Timeout | null = null;
     // 跟踪是否触发了长按
     let hasLongPressed = false;
@@ -41,10 +41,10 @@ const touchDirective: Directive = {
         clearTimeout(pressTimer);
         pressTimer = null;
 
-        binding.value.handleEnd();
-
         if (!hasLongPressed) {
           binding.value.handleShortPress();
+        } else {
+          binding.value.handleEnd();
         }
       }
     };
