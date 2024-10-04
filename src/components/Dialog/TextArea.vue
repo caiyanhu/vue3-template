@@ -31,23 +31,21 @@ const submit = async () => {
 </script>
 
 <template>
-  <div
-    class="bg-textArea absolute bottom-[2.91625rem] w-[21.25rem] h-[16.678125rem] mx-auto my-0 px-[2.125rem] pt-[4rem] pb-0">
+  <div class="wrapper">
     <textarea
-      class="w-full bg-white text-[#3b3b3b] outline-0 focus:border-0 placeholder:text-[#3b3b3b]"
       type="text"
       id="inputField"
       placeholder="您可以通过输入或按下按钮说话的方式向我提问"
       v-model="question"
       rows="4" />
-    <div class="flex justify-between items-center">
+    <div class="buttons">
       <button
-        class="text-[#697ffe]"
+        style="color: #697ffe"
         @click="resetTextArea">
         清空
       </button>
       <button
-        :class="`${isSubmitAllowed ? 'text-[#697ffe]' : 'text-[#ccc]'}`"
+        :style="`${isSubmitAllowed ? 'color: #697ffe;' : 'color: #ccc;'}`"
         :disabled="!isSubmitAllowed"
         @click="submit">
         发送
@@ -55,3 +53,37 @@ const submit = async () => {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.wrapper {
+  background-image: url("../../assets/textArea.svg");
+  background-size: cover;
+  position: absolute;
+  bottom: 46.66px;
+  width: 340px;
+  height: 266.85px;
+  margin: 0 auto;
+  padding: 64px 34px 0;
+
+  textarea {
+    width: 100%;
+    background-color: #fff;
+    color: #3b3b3b;
+    outline-width: 0;
+
+    &:focus {
+      border-width: 0;
+    }
+
+    &::-webkit-input-placeholder {
+      color: #3b3b3b;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+</style>

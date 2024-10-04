@@ -1,3 +1,4 @@
+import useErrorStore from "@/store/error";
 import useTextStore from "@/store/text";
 
-export { useTextStore };
+export { useErrorStore, useTextStore };

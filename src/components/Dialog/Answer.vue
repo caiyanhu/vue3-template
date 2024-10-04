@@ -8,8 +8,16 @@ const { answer } = storeToRefs(textStore);
 </script>
 
 <template>
-  <div
-    class="w-[10.75rem] h-[13.125rem] bg-answer bg-cover pl-[1.5rem] pr-[1rem] pt-[1.25rem] pb-[0.625rem] text-[#535353]">
+  <div class="answer-wrapper">
     {{ answer }}
   </div>
 </template>
+
+<style scoped lang="scss">
+.answer-wrapper {
+  width: 172px;
+  height: 210px;
+  background-image: url("../../../public/images/answer_background.svg");
+  background-size: cover;
+}
+</style>

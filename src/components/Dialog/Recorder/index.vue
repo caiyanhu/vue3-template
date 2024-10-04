@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
-import { ASR_voice } from "@/apis";
 import RecorderIcon from "@/assets/recorder.svg";
 import { MessagePopup } from "@/components";
+import { useErrorStore } from "@/store";
 
-import AudioRecorder from "./recorder.ts";
+import AudioRecorder from "./AudioRecorder.ts";
 
-// 是否展示消息弹窗
-const isMessagePopupVisible = ref(false);
-const message = ref("说话时间太短");
+const errorMsgStore = useErrorStore();
+const { isMessagePopupVisible, message } = storeToRefs(errorMsgStore);
 // 是否展示声纹动画
 const isVoiceAnimationVisible = ref(false);
 
@@ -18,29 +18,17 @@ const recorder = new AudioRecorder();
 /**
  * 按钮点击时,展示动画，开始录音
  */
-const handleStart = async () => {
+const handleStart = () => {
   isVoiceAnimationVisible.value = true;
-  try {
-    await recorder.startRecording();
-  } catch (error) {
-    isMessagePopupVisible.value = true;
-    if (error instanceof Error) {
-      message.value = error.message;
-    }
-  }
+  recorder.startRecording();
 };
 
 /**
  * 按钮松开时,动画消失.如果录音对象还在,结束录音
  */
-const handleEnd = async () => {
+const handleEnd = () => {
   isVoiceAnimationVisible.value = false;
-  const audioBlob = await recorder.stopRecording();
-
-  if (audioBlob.size > 0) {
-    // 将音频文件上传到语音转文字接口中
-    await ASR_voice(audioBlob);
-  }
+  recorder.stopRecording();
 };
 
 /**
@@ -51,17 +39,27 @@ const handleShortPress = () => {
 
   // 当录音器获得授权之后,短按才触发提示"说话时间太短"
   if (recorder.hasPermission) {
-    isMessagePopupVisible.value = true;
+    errorMsgStore.$patch((state) => {
+      state.isMessagePopupVisible = true;
+      state.message = "说话时间太短";
+    });
   }
 
   recorder.cancelRecording();
 };
+
+// 关闭错误信息弹窗
+const closeMessagePopup = () => {
+  errorMsgStore.$patch((state) => {
+    state.isMessagePopupVisible = false;
+  });
+};
 </script>
 
 <template>
-  <div class="absolute bottom-0 w-full h-[6.875rem]">
+  <div class="wrapper">
     <div
-      :class="`flex justify-center relative bg-top bg-cover ${isVoiceAnimationVisible ? 'bg-voiceWave' : 'bg-voiceWaveInit'}`">
+      :class="`recorder-icon ${isVoiceAnimationVisible ? 'bg-voiceWave' : 'bg-voiceWaveInit'}`">
       <RecorderIcon
         v-touch="{
           handleStart,
@@ -70,8 +68,25 @@ const handleShortPress = () => {
         }" />
     </div>
     <MessagePopup
-      @close="isMessagePopupVisible = false"
+      @close="closeMessagePopup"
       :message="message"
       :visible="isMessagePopupVisible" />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 110px;
+
+  .recorder-icon {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background-size: cover;
+    background-position: top;
+  }
+}
+</style>

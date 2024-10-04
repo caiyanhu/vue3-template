@@ -6,14 +6,32 @@ import PostgreSQL from "@/assets/pg_button.svg";
 </script>
 
 <template>
-  <div class="w-full pt-[3.5rem] pb-0 px-[1.875rem]">
-    <div class="flex justify-between mb-[1rem]">
+  <div class="home-top">
+    <div class="first-row">
       <MySQL />
       <PostgreSQL />
     </div>
-    <div class="flex justify-between">
+    <div class="second-row">
       <AP />
       <Distributed />
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.home-top {
+  width: 100%;
+  padding: 56px 30px 0;
+
+  .first-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .second-row {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+</style>

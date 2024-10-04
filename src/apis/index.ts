@@ -5,7 +5,7 @@ async function ASR_voice(blob: Blob) {
   const url = `/stream/v1/asr?appkey=mjfewXjiA56WMRqU`;
 
   const headers = {
-    "X-NLS-Token": `2a48e9b649e343e0bdce5288337d5790`,
+    "X-NLS-Token": `86bef39737ea435296a632b6535fcc91`,
   };
   const formData = new FormData();
   formData.append("file", blob, "1.wav");
