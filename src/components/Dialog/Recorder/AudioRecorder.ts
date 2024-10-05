@@ -1,4 +1,5 @@
-import { useErrorStore } from "@/store";
+import { ASR_voice } from "@/apis";
+import { useTextStore } from "@/store";
 
 // 定义录音类
 class AudioRecorder {
@@ -7,6 +8,7 @@ class AudioRecorder {
   private isRecording: boolean = false;
   private audioBlob: Blob | null = null; // 用于存储最终的音频 Blob
   public hasPermission: boolean | null = null;
+  public permissionErrorMessage: string = "";
 
   constructor() {
     this.init();
@@ -19,6 +21,7 @@ class AudioRecorder {
       this.mediaRecorder = new MediaRecorder(stream);
       this.bindEvents();
       this.hasPermission = true;
+      this.permissionErrorMessage = "";
     } catch (error) {
       if (error instanceof DOMException) {
         this.hasPermission = false;
@@ -29,22 +32,17 @@ class AudioRecorder {
 
   // 处理权限错误
   private handlePermissionError(error: DOMException) {
-    let message = "";
     if (error.name === "NotAllowedError") {
       console.error("用户拒绝了麦克风访问权限。");
-      message = "请允许访问麦克风以进行录音。";
+      this.permissionErrorMessage =
+        "请允许访问麦克风以进行录音。\n重新扫码进入";
     } else if (error.name === "NotFoundError") {
       console.error("没有找到麦克风设备。");
-      message = "未检测到麦克风设备。";
+      this.permissionErrorMessage = "未检测到麦克风设备。";
     } else {
       console.error("获取媒体权限失败:", error);
-      message = "无法访问麦克风，请检查设备设置。";
+      this.permissionErrorMessage = "无法访问麦克风，请检查设备设置。";
     }
-    const errorMsgStore = useErrorStore();
-    errorMsgStore.$patch((state) => {
-      state.isMessagePopupVisible = true;
-      state.message = message;
-    });
   }
 
   // 绑定事件
@@ -61,6 +59,12 @@ class AudioRecorder {
         this.playAudio(audioUrl); // 播放录音
 
         // 将音频文件上传到语音转文字接口中
+        const result = await ASR_voice(this.audioBlob);
+        // 将识别的结果存入store中
+        const textStore = useTextStore();
+        textStore.$patch((state) => {
+          state.question = result;
+        });
       };
     }
   }

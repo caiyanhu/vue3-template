@@ -1,17 +1,32 @@
 <script setup lang="ts">
-import { HomeBottom, HomeMiddle, HomeTop } from "@/components";
+import { storeToRefs } from "pinia";
+
+import { HomeBottom, HomeMiddle, HomeTop, MessagePopup } from "@/components";
+import { useErrorStore } from "@/store";
+
+const errorMsgStore = useErrorStore();
+const { isMessagePopupVisible, message } = storeToRefs(errorMsgStore);
+
+// 关闭错误信息弹窗
+const closeMessagePopup = () => {
+  errorMsgStore.reset();
+};
 </script>
 
 <template>
-  <div class="wraper">
+  <div class="wrapper">
     <HomeTop />
     <HomeMiddle />
     <HomeBottom />
+    <MessagePopup
+      @close="closeMessagePopup"
+      :message="message"
+      :visible="isMessagePopupVisible" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.wraper {
+.wrapper {
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;

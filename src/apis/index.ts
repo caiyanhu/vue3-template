@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 // 将语音文件识别为文字
 async function ASR_voice(blob: Blob) {
@@ -11,11 +11,23 @@ async function ASR_voice(blob: Blob) {
   formData.append("file", blob, "1.wav");
 
   try {
-    const response = await axios.post(url, formData, { headers: headers });
+    type Response = {
+      data: {
+        message: string;
+        result: string;
+        status: number;
+      };
+    };
+    const response: Response = await axios.post(url, formData, {
+      headers: headers,
+    });
     return response.data?.result;
   } catch (error) {
     console.error(error);
-    return null;
+    if (error instanceof AxiosError) {
+      return error.message;
+    }
+    return "";
   }
 }
 

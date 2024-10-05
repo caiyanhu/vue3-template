@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
 import RecorderIcon from "@/assets/recorder.svg";
-import { MessagePopup } from "@/components";
 import { useErrorStore } from "@/store";
 
 import AudioRecorder from "./AudioRecorder.ts";
 
 const errorMsgStore = useErrorStore();
-const { isMessagePopupVisible, message } = storeToRefs(errorMsgStore);
 // 是否展示声纹动画
 const isVoiceAnimationVisible = ref(false);
 
@@ -19,8 +16,15 @@ const recorder = new AudioRecorder();
  * 按钮点击时,展示动画，开始录音
  */
 const handleStart = () => {
-  isVoiceAnimationVisible.value = true;
-  recorder.startRecording();
+  if (recorder.hasPermission) {
+    isVoiceAnimationVisible.value = true;
+    recorder.startRecording();
+  } else {
+    errorMsgStore.$patch((state) => {
+      state.isMessagePopupVisible = true;
+      state.message = recorder.permissionErrorMessage;
+    });
+  }
 };
 
 /**
@@ -47,13 +51,6 @@ const handleShortPress = () => {
 
   recorder.cancelRecording();
 };
-
-// 关闭错误信息弹窗
-const closeMessagePopup = () => {
-  errorMsgStore.$patch((state) => {
-    state.isMessagePopupVisible = false;
-  });
-};
 </script>
 
 <template>
@@ -67,10 +64,6 @@ const closeMessagePopup = () => {
           handleShortPress,
         }" />
     </div>
-    <MessagePopup
-      @close="closeMessagePopup"
-      :message="message"
-      :visible="isMessagePopupVisible" />
   </div>
 </template>
 
