@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
     component: PostgreSQL,
   },
   {
-    path: "/Distributed",
+    path: "/distributed",
     name: "Distributed",
     component: Distributed,
   },

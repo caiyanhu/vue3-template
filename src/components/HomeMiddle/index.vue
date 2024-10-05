@@ -1,11 +1,10 @@
 <script setup lang="ts">
-// import Answer from "../Dialog/Answer.vue";
-import Model from "./Model.vue";
+import Answer from "../Dialog/Answer.vue";
 </script>
 
 <template>
   <div class="home-middle">
-    <Model />
+    <Answer />
   </div>
 </template>
 
@@ -14,5 +13,8 @@ import Model from "./Model.vue";
   width: 100%;
   height: 268px;
   margin-top: 48px;
+  display: flex;
+  position: relative;
+  z-index: 10;
 }
 </style>

@@ -1,26 +1,59 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+
 import ButtonArrow from "@/assets/button_arrow.svg";
+
+const firstRow = [
+  {
+    name: "MySQL版",
+    link: "/mysql",
+  },
+  {
+    name: "PostgreSQL版",
+    link: "/pg",
+  },
+];
+const secondRow = [
+  {
+    name: "数仓版",
+    link: "/ap",
+  },
+  {
+    name: "分布式版",
+    link: "/distributed",
+  },
+];
+
+const router = useRouter();
+
+type ClickItem = {
+  name: string;
+  link: string;
+};
+const handleClick = (item: ClickItem) => {
+  router.push(item.link);
+};
 </script>
 
 <template>
   <div class="home-top">
     <div class="first-row">
-      <div class="button">
-        <span>MySQL版</span>
-        <ButtonArrow />
-      </div>
-      <div class="button">
-        <span>PostgreSQL版</span>
+      <div
+        class="button"
+        v-for="item in firstRow"
+        :key="item.name"
+        @click="() => handleClick(item)">
+        <span>{{ item.name }}</span>
         <ButtonArrow />
       </div>
     </div>
     <div class="second-row">
-      <div class="button">
-        <span>数仓版</span>
-        <ButtonArrow />
-      </div>
-      <div class="button">
-        <span>分布式版</span>
+      <div
+        class="button"
+        v-for="item in secondRow"
+        :key="item.name"
+        @click="() => handleClick(item)">
+        <span>{{ item.name }}</span>
         <ButtonArrow />
       </div>
     </div>
@@ -31,6 +64,8 @@ import ButtonArrow from "@/assets/button_arrow.svg";
 .home-top {
   width: 100%;
   padding: 56px 30px 0;
+  position: relative;
+  z-index: 10;
 
   .first-row {
     display: flex;

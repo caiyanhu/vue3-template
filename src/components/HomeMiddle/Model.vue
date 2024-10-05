@@ -47,7 +47,7 @@ onMounted(() => {
   // 加载GLB模型
   const loader = new GLTFLoader();
   loader.load(
-    "./glb/surf+hello.glb", // 替换为你的GLB文件路径
+    "./glb/ip.glb", // 替换为你的GLB文件路径
     (gltf) => {
       scene.add(gltf.scene);
 
@@ -111,12 +111,12 @@ onMounted(() => {
 <template>
   <div
     class="canvas-container"
-    ref="canvasContainer"></div>
+    ref="canvasContainer" />
 </template>
 
 <style lang="scss" scoped>
 .canvas-container {
-  width: 100%;
-  height: 100%;
+  width: 285px;
+  height: 267px;
 }
 </style>
