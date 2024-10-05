@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import AP from "@/assets/ap_button.svg";
-import Distributed from "@/assets/distributed_button.svg";
-import MySQL from "@/assets/mysql_button.svg";
-import PostgreSQL from "@/assets/pg_button.svg";
+import ButtonArrow from "@/assets/button_arrow.svg";
 </script>
 
 <template>
   <div class="home-top">
     <div class="first-row">
-      <MySQL />
-      <PostgreSQL />
+      <div class="button">
+        <span>MySQL版</span>
+        <ButtonArrow />
+      </div>
+      <div class="button">
+        <span>PostgreSQL版</span>
+        <ButtonArrow />
+      </div>
     </div>
     <div class="second-row">
-      <AP />
-      <Distributed />
+      <div class="button">
+        <span>数仓版</span>
+        <ButtonArrow />
+      </div>
+      <div class="button">
+        <span>分布式版</span>
+        <ButtonArrow />
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +41,26 @@ import PostgreSQL from "@/assets/pg_button.svg";
   .second-row {
     display: flex;
     justify-content: space-between;
+  }
+
+  .button {
+    width: 157.01px;
+    height: 44px;
+    background-image: url("../../assets/button_background.svg");
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+
+    svg {
+      position: absolute;
+      right: 9px;
+    }
   }
 }
 </style>
