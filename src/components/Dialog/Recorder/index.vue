@@ -58,7 +58,7 @@ const handleShortPress = () => {
     <div
       :class="`recorder-icon ${isVoiceAnimationVisible ? 'bg-voiceWave' : 'bg-voiceWaveInit'}`">
       <RecorderIcon
-        v-touch="{
+        v-long-press="{
           handleStart,
           handleEnd,
           handleShortPress,

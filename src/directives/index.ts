@@ -1,9 +1,11 @@
 import { App, Directive } from "vue";
 
-import touchDirective from "@/directives/touch";
+import longPressDirective from "@/directives/longPress";
+import multiTouchDirective from "@/directives/multiTouch";
 
 const directiveList: Record<string, Directive> = {
-  touch: touchDirective,
+  longPress: longPressDirective,
+  multiTouch: multiTouchDirective,
 };
 
 const directives = {

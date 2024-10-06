@@ -21,6 +21,7 @@ const closeMessagePopup = () => {
     <MessagePopup
       @close="closeMessagePopup"
       :message="message"
+      :duration="1.5"
       :visible="isMessagePopupVisible" />
   </div>
 </template>

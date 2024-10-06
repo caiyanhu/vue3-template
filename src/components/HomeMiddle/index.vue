@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import Answer from "../Dialog/Answer.vue";
+import Model from "./Model.vue";
 </script>
 
 <template>
   <div class="home-middle">
+    <Model />
     <Answer />
   </div>
 </template>

@@ -1,5 +1,7 @@
 import type { Directive, DirectiveBinding } from "vue";
 
+import { isTouchDevice } from "@/directives/utils";
+
 type DirectiveBindingValue = {
   handleStart: () => void;
   handleEnd: () => void;
@@ -7,12 +9,13 @@ type DirectiveBindingValue = {
   handleShortPress: () => void;
 };
 
-function isTouchDevice() {
-  return navigator.maxTouchPoints > 0;
+interface CustomElement extends HTMLElement {
+  start: () => void;
+  cancel: () => void;
 }
 
-const touchDirective: Directive = {
-  mounted(el: HTMLElement, binding: DirectiveBinding<DirectiveBindingValue>) {
+const longPressDirective: Directive = {
+  mounted(el: CustomElement, binding: DirectiveBinding<DirectiveBindingValue>) {
     // 阈值,默认1000s
     const duration = binding.arg ? parseInt(binding.arg, 10) : 1000;
     let pressTimer: NodeJS.Timeout | null = null;
@@ -20,7 +23,7 @@ const touchDirective: Directive = {
     let hasLongPressed = false;
 
     // 开始计时函数
-    const start = () => {
+    el.start = () => {
       binding.value.handleStart();
 
       if (pressTimer === null) {
@@ -36,7 +39,7 @@ const touchDirective: Directive = {
     };
 
     // 清除计时器函数
-    const cancel = () => {
+    el.cancel = () => {
       if (pressTimer != null) {
         clearTimeout(pressTimer);
         pressTimer = null;
@@ -51,16 +54,29 @@ const touchDirective: Directive = {
 
     // 事件监听
     if (isTouchDevice()) {
-      el.addEventListener("touchstart", start);
+      el.addEventListener("touchstart", el.start);
 
-      el.addEventListener("touchend", cancel);
-      el.addEventListener("touchcancel", cancel);
+      el.addEventListener("touchend", el.cancel);
+      el.addEventListener("touchcancel", el.cancel);
     } else {
-      el.addEventListener("mousedown", start);
+      el.addEventListener("mousedown", el.start);
 
-      el.addEventListener("mouseup", cancel);
+      el.addEventListener("mouseup", el.cancel);
+    }
+  },
+  beforeUnmount(el: CustomElement) {
+    // 解除事件绑定
+    if (isTouchDevice()) {
+      el.removeEventListener("touchstart", el.start);
+
+      el.removeEventListener("touchend", el.cancel);
+      el.removeEventListener("touchcancel", el.cancel);
+    } else {
+      el.removeEventListener("mousedown", el.start);
+
+      el.removeEventListener("mouseup", el.cancel);
     }
   },
 };
 
-export default touchDirective;
+export default longPressDirective;

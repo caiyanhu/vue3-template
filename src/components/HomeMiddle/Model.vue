@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import confetti from "canvas-confetti";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { AnimationClip } from "three/src/animation/AnimationClip.d.ts";
@@ -106,12 +107,22 @@ onMounted(() => {
     }
   });
 });
+
+// 处理多次点击事件
+const handleMultiTouch = () => {
+  confetti({
+    particleCount: 200,
+    spread: 70,
+    origin: { y: 0.75 },
+  });
+};
 </script>
 
 <template>
   <div
     class="canvas-container"
-    ref="canvasContainer" />
+    ref="canvasContainer"
+    v-multi-touch="handleMultiTouch" />
 </template>
 
 <style lang="scss" scoped>
