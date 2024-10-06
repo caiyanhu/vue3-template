@@ -1,6 +1,6 @@
 import type { Directive, DirectiveBinding } from "vue";
 
-import { isTouchDevice } from "@/directives/utils";
+import { isTouchDevice } from "@/utils/device";
 
 type DirectiveBindingValue = {
   handleStart: () => void;

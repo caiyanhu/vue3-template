@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
+import { useVisibleStore } from "@/store";
+
 import Answer from "../Dialog/Answer.vue";
 import Model from "./Model.vue";
+
+const visibleStore = useVisibleStore();
+const { isHomeMiddleVisible } = storeToRefs(visibleStore);
 </script>
 
 <template>
-  <div class="home-middle">
+  <div
+    class="home-middle"
+    v-if="isHomeMiddleVisible">
     <Model />
     <Answer />
   </div>
