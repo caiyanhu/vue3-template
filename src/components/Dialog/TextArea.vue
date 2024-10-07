@@ -115,7 +115,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .wrapper {
-  background-image: url("../../assets/textArea.svg");
+  background-image: url("../../assets/textArea.png");
   background-size: cover;
   position: absolute;
   bottom: 46.66px;

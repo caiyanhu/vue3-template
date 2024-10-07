@@ -81,7 +81,7 @@ const handleClick = (item: ClickItem) => {
   .button {
     width: 157.01px;
     height: 44px;
-    background-image: url("../../assets/button_background.svg");
+    background-image: url("../../assets/button_background.png");
     background-size: 100% 100%;
     display: flex;
     align-items: center;
@@ -91,6 +91,7 @@ const handleClick = (item: ClickItem) => {
     font-size: 16px;
     line-height: 21px;
     text-align: center;
+    color: #ffffff;
 
     svg {
       position: absolute;
