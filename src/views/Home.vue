@@ -11,6 +11,14 @@ const { isMessagePopupVisible, message } = storeToRefs(errorMsgStore);
 const closeMessagePopup = () => {
   errorMsgStore.reset();
 };
+
+// 禁止显示右键菜单
+document.addEventListener(
+  "contextmenu",
+  function (event: MouseEvent | TouchEvent) {
+    event.preventDefault();
+  },
+);
 </script>
 
 <template>
